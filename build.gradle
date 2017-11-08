@@ -9,6 +9,8 @@ buildscript {
 
 apply plugin: 'scala'
 apply plugin: "com.github.johnrengelman.shadow"
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
 
 repositories {
     jcenter()
@@ -33,5 +35,16 @@ jar {
 shadowJar {
     transform(com.github.jengelman.gradle.plugins.shadow.transformers.AppendingTransformer) {
         resource = 'reference.conf'
+    }
+    baseName = 's3mock-shadow'
+    classifier = ''
+}
+
+publishing {
+    publications {
+        shadow(MavenPublication) {
+            artifact shadowJar
+            artifactId  = 's3mock-shadow'
+        }
     }
 }
